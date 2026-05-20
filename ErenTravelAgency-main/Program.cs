@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 builder.Services.AddCors(options => options
     .AddPolicy("AllowAll", p =>
         p.AllowAnyOrigin()
@@ -16,7 +18,14 @@ builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddScoped<IPackageService, PackageService>();
 
 // Nëse XAMPP root nuk ka password, lëre password=;
-var connectionString = "server=localhost;port=3306;user id=root;password=;database=ErenTravelDb;default command timeout=600;connect timeout=600;AllowZeroDateTime=True;ConvertZeroDateTime=True";
+var host = Environment.GetEnvironmentVariable("MYSQLHOST") ?? "localhost";
+var port = Environment.GetEnvironmentVariable("MYSQLPORT") ?? "3306";
+var user = Environment.GetEnvironmentVariable("MYSQLUSER") ?? "root";
+var password = Environment.GetEnvironmentVariable("MYSQLPASSWORD") ?? "";
+var database = Environment.GetEnvironmentVariable("MYSQLDATABASE") ?? "ErenTravelDb";
+
+var connectionString =
+    $"server={host};port={port};user id={user};password={password};database={database};default command timeout=600;connect timeout=600;AllowZeroDateTime=True;ConvertZeroDateTime=True";
 var serverVersion = new MySqlServerVersion(new Version(9, 2, 0));
 
 builder.Services.AddDbContext<TravelDbContext>(options =>
