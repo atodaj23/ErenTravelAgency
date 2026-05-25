@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paketa Turistike</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="paketatTuristike.html"><img src="images/logo.png" class="brand-logo" alt="Eren Travel"></a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="paketatTuristike.html">Paketa turistike</a></li>
+        <li class="nav-item"><a class="nav-link" href="#myReservations" onclick="showClientSection('reservations')">Rezervimet e mia</a></li>
+        <li class="nav-item"><a class="nav-link" href="#following" onclick="showClientSection('following')">Agjencitë që ndjek</a></li>
+        <li class="nav-item d-flex" id="authNav"></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="dashboard-header modern-header">
+  <div class="container">
+    <span class="mini-label">Eren Travel Platform</span>
+    <h1>Paketat Turistike</h1>
+    <p id="roleInfo" class="mb-0">Kërko paketa, hap detajet e plota, ndiq agjencitë, lër review dhe rezervo direkt.</p>
+  </div>
+</header>
+<main class="container py-5">
+  <section id="packagesSection">
+    <div class="eren-panel mb-4">
+      <div class="row g-3 align-items-end">
+        <div class="col-lg-4"><label class="form-label">Kërko destinacion/agjenci/përshkrim</label><input id="searchInput" class="form-control" placeholder="p.sh. Paris, Eren Travel, hotel..."></div>
+        <div class="col-md-2"><label class="form-label">Çmimi min</label><input id="minPrice" class="form-control" type="number" min="0"></div>
+        <div class="col-md-2"><label class="form-label">Çmimi max</label><input id="maxPrice" class="form-control" type="number" min="0"></div>
+        <div class="col-md-2"><label class="form-label">Datë udhëtimi</label><input id="travelDate" class="form-control" type="date"></div>
+        <div class="col-md-2"><button class="btn btn-primary w-100" onclick="loadPackages()">Filtro</button></div>
+      </div>
+    </div>
+    <div class="d-flex flex-column flex-md-row gap-3 align-items-md-center justify-content-between mb-4">
+      <div><h2 class="section-title mb-1">Ofertat aktive</h2><p class="text-muted mb-0">Paketat nga Eren Travel dhe agjencitë e regjistruara.</p></div>
+      <button class="btn btn-outline-primary" onclick="loadPackages()">Rifresko</button>
+    </div>
+    <div class="row g-4" id="packagesGrid"></div>
+  </section>
+
+  <section id="myReservations" class="d-none">
+    <div class="eren-panel">
+      <div class="d-flex justify-content-between align-items-center mb-3"><div><h3 class="mb-0">Rezervimet e mia</h3><p class="text-muted small mb-0">Historiku i rezervimeve aktuale dhe të kaluara.</p></div><button class="btn btn-outline-secondary" onclick="showClientSection('packages')">Kthehu te paketat</button></div>
+      <div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Paketa</th><th>Agjencia</th><th>Datat</th><th>Persona/Dhoma</th><th>Çmimi</th><th>Statusi</th><th>Anulim</th></tr></thead><tbody id="myReservationsBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="following" class="d-none">
+    <div class="eren-panel">
+      <div class="d-flex justify-content-between align-items-center mb-3"><div><h3 class="mb-0">Agjencitë që ndjek</h3><p class="text-muted small mb-0">Këtu shfaqen agjencitë nga të cilat dëshiron të marrësh përditësime/promocione.</p></div><button class="btn btn-outline-secondary" onclick="showClientSection('packages')">Kthehu te paketat</button></div>
+      <div id="followingList" class="row g-3"></div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fade" id="packageDetailsModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content rounded-4 package-detail-modal">
+    <div class="modal-header"><h5 class="modal-title" id="detailTitle">Detajet e paketës</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="detail-image-box"><img id="detailImage" src="" alt="Foto pakete"></div>
+          <div class="d-flex gap-2 mt-3 flex-wrap"><button class="btn btn-outline-primary btn-sm" onclick="followCurrentAgency()">Ndiq agjencinë</button><button class="btn btn-outline-danger btn-sm" onclick="reportCurrentPackage()">Raporto problem</button></div>
+          <div class="reviews-box mt-3"><h6>Reviews dhe ratings</h6><div id="reviewSummary" class="review-summary mb-2">0.00 ⭐ / 5 nga 0 klientë</div><div id="reviewsList" class="small text-muted">Duke u ngarkuar...</div><hr><label class="form-label small">Vlerësimi yt</label><div id="starsInput" class="stars-input mb-2"></div><input id="reviewComment" class="form-control form-control-sm" placeholder="Shkruaj review..."><button class="btn btn-outline-primary btn-sm w-100 mt-2" onclick="submitReview()">Dërgo / përditëso review</button></div>
+        </div>
+        <div class="col-lg-6">
+          <span class="agency-chip-static" id="detailAgency"></span><h3 id="detailName" class="mt-3 fw-bold"></h3><p class="text-muted mb-2" id="detailDuration"></p><div id="detailPrice" class="mb-3"></div><p id="detailDescription" class="detail-description"></p><hr><h5 class="mb-3">Rezervo këtë paketë</h5><div class="booking-summary mb-3" id="priceBox"></div><input type="hidden" id="packageId"><input type="hidden" id="packageName">
+          <div class="row"><div class="col-md-6"><label class="form-label">Emri</label><input id="reservationName" class="form-control"></div><div class="col-md-6"><label class="form-label">Email</label><input id="email" class="form-control"></div></div>
+          <div class="row"><div class="col-md-6"><label class="form-label mt-2">Data e nisjes</label><input id="startDate" type="date" class="form-control"></div><div class="col-md-6"><label class="form-label mt-2">Data e kthimit</label><input id="endDate" type="date" class="form-control"></div></div>
+          <div class="row"><div class="col-md-6"><label class="form-label mt-2">Numri i personave</label><input id="numPeople" type="number" min="1" value="1" class="form-control"></div><div class="col-md-6"><label class="form-label mt-2">Numri i dhomave</label><input id="numRooms" type="number" min="1" value="1" class="form-control"><small class="text-muted">Dhomat mund të rriten vetëm kur personat janë më shumë se 1.</small></div></div>
+          <div id="totalBox" class="booking-summary mt-3"></div><div id="reservationMsg" class="small mt-3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline-secondary" data-bs-dismiss="modal">Mbyll</button><button id="confirmReservationBtn" class="btn btn-primary" onclick="submitReservation()">Konfirmo rezervimin</button></div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="cancelPolicyModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <div class="modal-header"><h5 class="modal-title">Cancellation & Refund Policy</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <p class="text-muted small">Lexo rregullat para se të anulosh rezervimin. Sistemi e kontrollon policy-n automatikisht.</p>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead><tr><th>Kushti</th><th>Vendimi</th><th>Refund/Fee</th></tr></thead>
+            <tbody>
+              <tr><td>Më shumë se 14 ditë para nisjes</td><td>Anulimi lejohet</td><td>Full refund, 0% fee</td></tr>
+              <tr><td>7–13 ditë para nisjes</td><td>Anulimi lejohet</td><td>90% refund, 10% fee</td></tr>
+              <tr><td>2–6 ditë para nisjes</td><td>Anulimi lejohet</td><td>75% refund, 25% fee</td></tr>
+              <tr><td>1 ditë para nisjes ose ditën e nisjes</td><td>Nuk lejohet</td><td>Not refundable</td></tr>
+              <tr><td>Rezervim i aprovuar në 3 ditët e fundit</td><td>Nuk lejohet</td><td>Not refundable</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="selectedCancellationInfo" class="alert alert-warning small"></div>
+        <label class="form-label">Arsyeja e anulimit</label>
+        <textarea id="cancelReason" class="form-control" rows="2">Ndryshim plani</textarea>
+      </div>
+      <div class="modal-footer"><button class="btn btn-outline-secondary" data-bs-dismiss="modal">Mbyll</button><button class="btn btn-danger" onclick="confirmCancellation()">Konfirmo anulimin</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="scripts/app.js"></script>
+<script>
+const user=requireLogin(['Client','B2B']);
+let packages=[]; let activePackage=null; let selectedRating=5;
+const el=id=>document.getElementById(id);
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function imgFor(p,i){return p.imageUrl||fallbackImage(i||0)}
+function getUnitPrice(){if(!activePackage)return 0; return Number((user&&user.role==='B2B'?(activePackage.cmimiB2B||activePackage.cmimi):activePackage.cmimi)||0)}
+function priceHtml(p){return user&&user.role==='B2B'?`<span class="price-old">${money(p.cmimiOrigjinal||p.cmimi)}</span> <span class="price-new">${money(p.cmimiB2B||p.cmimi)} B2B</span>`:`<span class="price-new">${money(p.cmimi)}</span>`;}
+function ratingHtml(p){const avg=Number(p.averageRating||0);const count=Number(p.reviewCount||0);return `<div class="package-rating-badge"><span>${avg.toFixed(2)} ⭐</span><small>${count} review${count===1?'':'s'}</small></div>`}
+function capacityText(p){const max=Number(p.maxPersons||150);const reserved=Number(p.reservedPersons||0);const remaining=Number(p.remainingPersons ?? Math.max(0,max-reserved));return `<span class="text-muted small">Kapacitet: <b>${reserved}/${max}</b> persona • të lira: <b>${remaining}</b></span>`}
+function packageHtml(p,i){return `<div class="col-md-6 col-lg-4 col-xl-3"><div class="card package-card h-100" onclick="openPackageDetails(${p.id})"><div class="img-wrap package-image-fit"><img class="card-img-top package-img" src="${imgFor(p,i)}" onerror="this.src='${fallbackImage(i)}'"><span class="agency-chip">${esc(p.agencyName||'Eren Travel')}</span></div><div class="card-body d-flex flex-column"><div class="d-flex justify-content-between align-items-start gap-2"><h6 class="fw-bold mb-2">${esc(p.paketa)}</h6>${ratingHtml(p)}</div><p class="small text-muted flex-grow-1">${p.kohezgjatja} ditë • Nisja: ${p.travelDate?new Date(p.travelDate).toLocaleDateString('sq-AL'):'Me kërkesë'}<br>${esc(p.pershkrimi||'')}</p><p class="mb-2">${priceHtml(p)}</p><div class="capacity-line mb-3">${capacityText(p)}</div><button class="btn btn-primary btn-sm w-100" onclick="event.stopPropagation();openPackageDetails(${p.id})">Shiko detajet dhe rezervo</button></div></div></div>`}
+function showClientSection(section){['packagesSection','myReservations','following'].forEach(id=>el(id).classList.add('d-none')); if(section==='reservations'){el('myReservations').classList.remove('d-none');loadMyReservations();} else if(section==='following'){el('following').classList.remove('d-none');loadFollowing();} else el('packagesSection').classList.remove('d-none');}
+async function enrichPackageRatings(ps){
+  // Siguron që rating-u të dalë në LISTË për çdo paketë edhe nëse endpoint-i /packages kthehet nga cache ose pa fusha rating.
+  return await Promise.all(ps.map(async p=>{
+    try{
+      const summary=await jsonFetch(API+`/engagement/reviews/summary?packageId=${encodeURIComponent(p.id)}`);
+      return {...p, averageRating:Number(summary.averageRating||0), reviewCount:Number(summary.count||0)};
+    }catch(e){
+      return {...p, averageRating:Number(p.averageRating||0), reviewCount:Number(p.reviewCount||0)};
+    }
+  }));
+}
+async function loadPackages(){let ps=await jsonFetch(API+`/packages?role=${encodeURIComponent(user.role)}&_=${Date.now()}`);ps=await enrichPackageRatings(ps);const q=(el('searchInput').value||'').toLowerCase();const min=Number(el('minPrice').value||0);const max=Number(el('maxPrice').value||0);const td=el('travelDate').value;if(q)ps=ps.filter(p=>`${p.paketa} ${p.pershkrimi||''} ${p.agencyName||''}`.toLowerCase().includes(q));if(min>0)ps=ps.filter(p=>Number(p.cmimi)>=min);if(max>0)ps=ps.filter(p=>Number(p.cmimi)<=max);if(td)ps=ps.filter(p=>p.travelDate&&p.travelDate.slice(0,10)===td);packages=ps;el('packagesGrid').innerHTML=ps.map(packageHtml).join('')||'<div class="col-12"><div class="eren-panel text-center">Nuk u gjet asnjë paketë.</div></div>';if(user.role==='B2B')el('roleInfo').innerHTML='Je loguar si <b>B2B User</b>: çmimi me 10% ulje aplikohet automatikisht në rezervim.';}
+function renderStars(){el('starsInput').innerHTML=[0,1,2,3,4,5].map(n=>`<button type="button" class="star-choice ${selectedRating===n?'active':''}" onclick="selectedRating=${n};renderStars()">${n} ⭐</button>`).join('');}
+function starText(n){n=Math.max(0,Math.min(5,Number(n)||0));return '⭐'.repeat(n)+'☆'.repeat(5-n)}
+async function openPackageDetails(id){activePackage=packages.find(p=>Number(p.id)===Number(id))||await jsonFetch(API+`/packages/${id}?role=${encodeURIComponent(user.role)}`);const idx=packages.findIndex(p=>Number(p.id)===Number(id));el('packageId').value=activePackage.id;el('packageName').value=activePackage.paketa||'';el('detailTitle').textContent=activePackage.paketa||'Detajet e paketës';el('detailImage').src=imgFor(activePackage,idx);el('detailImage').onerror=()=>{el('detailImage').src=fallbackImage(idx)};el('detailAgency').textContent=activePackage.agencyName||'Eren Travel';el('detailName').textContent=activePackage.paketa||'';el('detailDuration').textContent=`Kohëzgjatja: ${activePackage.kohezgjatja||0} ditë • Nisja: ${activePackage.travelDate?new Date(activePackage.travelDate).toLocaleDateString('sq-AL'):'Me kërkesë'}`;el('detailPrice').innerHTML=priceHtml(activePackage);el('detailDescription').textContent=activePackage.pershkrimi||'Kjo paketë nuk ka përshkrim shtesë.';el('priceBox').innerHTML=`Çmimi për person: <b>${money(getUnitPrice())}</b><br>${capacityText(activePackage)}`;const remaining=Number(activePackage.remainingPersons??activePackage.maxPersons??150);el('numPeople').setAttribute('max',String(Math.max(1,remaining)));el('confirmReservationBtn').disabled=remaining<=0;el('reservationName').value=user.fullName||'';el('email').value=user.email||'';el('reservationMsg').textContent='';el('numPeople').value=1;el('numRooms').value=1;syncRoomsAndTotal();const today=new Date();today.setDate(today.getDate()+1);const min=today.toISOString().slice(0,10);el('startDate').min=min;el('endDate').min=min;el('startDate').value=activePackage.travelDate?activePackage.travelDate.slice(0,10):'';el('endDate').value='';selectedRating=5;renderStars();await loadReviews();new bootstrap.Modal(el('packageDetailsModal')).show();}
+function syncRoomsAndTotal(){const remaining=Number(activePackage?.remainingPersons ?? activePackage?.maxPersons ?? 150);if(remaining<=0){el('numPeople').value=1;el('numRooms').value=1;el('confirmReservationBtn').disabled=true;el('totalBox').innerHTML='<span class="text-danger fw-bold">Kapaciteti është plot. Nuk mund të bëhet rezervim tjetër për këtë paketë.</span>';return;}el('confirmReservationBtn').disabled=false;let people=Math.max(1,Number(el('numPeople').value)||1);if(people>remaining){people=remaining;el('numPeople').value=remaining;}let rooms=Math.max(1,Number(el('numRooms').value)||1);if(people===1){rooms=1;el('numRooms').value=1;el('numRooms').setAttribute('max','1');}else{el('numRooms').setAttribute('max',String(people));if(rooms>people){rooms=people;el('numRooms').value=people;}}const total=getUnitPrice()*people;el('totalBox').innerHTML=`Totali: <b>${money(total)}</b> <span class="text-muted small">(${people} persona × ${money(getUnitPrice())})</span>`;}
+el('numPeople').addEventListener('input',syncRoomsAndTotal);el('numRooms').addEventListener('input',syncRoomsAndTotal);
+async function submitReservation(){try{const payload={emri:el('reservationName').value.trim(),email:el('email').value.trim(),paketa:el('packageName').value,packageId:Number(el('packageId').value),dataNisjes:el('startDate').value,dataKthimit:el('endDate').value,nrPersonave:Number(el('numPeople').value),nrDhomave:Number(el('numRooms').value),role:user.role};if(!payload.emri||!payload.email||!payload.packageId||!payload.dataNisjes||!payload.dataKthimit){throw new Error('Plotëso emrin, emailin, datën e nisjes dhe datën e kthimit.');}const remaining=Number(activePackage?.remainingPersons ?? activePackage?.maxPersons ?? 150);if(payload.nrPersonave>remaining){throw new Error(`Nuk mund të rezervosh ${payload.nrPersonave} persona. Për këtë paketë kanë mbetur vetëm ${remaining} vende të lira.`);}const r=await jsonFetch(API+'/reservations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});el('reservationMsg').className='small mt-3 text-success';el('reservationMsg').textContent=`Rezervimi u krye me sukses. Totali: ${money(r.cmimi)}. Statusi: në pritje të agjencisë.`;await loadMyReservations();await loadPackages();}catch(e){el('reservationMsg').className='small mt-3 text-danger';el('reservationMsg').textContent=e.message;}}
+function reservationStatusHtml(r){if(r.isCancelled)return '<span class="badge bg-secondary">Anuluar</span>';return `<span class="badge ${r.confirmed?'badge-approved':'badge-pending'}">${r.confirmed?'Aprovuar':'Në pritje'}</span>`;}
+let reservationsCache=[];let reservationToCancel=null;
+function refundInlineHtml(r){return `<small>${esc(r.cancellationPolicyMessage||'')}</small><br><b>Refund:</b> ${money(r.refundAmount||0)}<br><b>Fee:</b> ${money(r.cancellationFee||0)}${r.refundStatus?`<br><span class="text-muted">${esc(r.refundStatus)}</span>`:''}`;}
+function cancelButtonHtml(r){if(r.isCancelled)return `<small class="text-muted">Anuluar më ${r.cancelledAt?new Date(r.cancelledAt).toLocaleDateString('sq-AL'):''}</small>`;if(r.canCancel)return `<button class="btn btn-outline-danger btn-sm" onclick="openCancelModal(${r.id})">Anulo</button>`;return `<small class="text-muted">${esc(r.cancellationPolicyMessage||'Nuk mund të anulohet')}</small>`;}
+function openCancelModal(id){reservationToCancel=reservationsCache.find(x=>x.id===id);if(!reservationToCancel){alert('Rezervimi nuk u gjet.');return;}el('selectedCancellationInfo').innerHTML=`<b>Paketa:</b> ${esc(reservationToCancel.paketa)}<br><b>Data e nisjes:</b> ${new Date(reservationToCancel.dataNisjes).toLocaleDateString('sq-AL')}<br><b>Policy:</b> ${esc(reservationToCancel.cancellationPolicyMessage||'')}<br><b>Refund i llogaritur:</b> ${money(reservationToCancel.refundAmount||0)} &nbsp; <b>Fee:</b> ${money(reservationToCancel.cancellationFee||0)}`;el('cancelReason').value='Ndryshim plani';new bootstrap.Modal(el('cancelPolicyModal')).show();}
+async function confirmCancellation(){if(!reservationToCancel)return;const reason=el('cancelReason').value.trim()||'Anulim nga klienti';try{await jsonFetch(API+`/reservations/${reservationToCancel.id}/cancel`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:user.email,reason})});bootstrap.Modal.getInstance(el('cancelPolicyModal'))?.hide();alert('Rezervimi u anulua me sukses.');reservationToCancel=null;await loadMyReservations();await loadPackages();}catch(e){alert(e.message)}}
+async function loadMyReservations(){const rs=await jsonFetch(API+`/reservations?email=${encodeURIComponent(user.email)}`);reservationsCache=rs;el('myReservationsBody').innerHTML=rs.map(r=>`<tr><td>${esc(r.paketa)}</td><td>${esc(r.agencyName||'')}</td><td>${new Date(r.dataNisjes).toLocaleDateString('sq-AL')} - ${new Date(r.dataKthimit).toLocaleDateString('sq-AL')}</td><td>${r.nrPersonave} persona<br>${r.nrDhomave} dhoma</td><td><b>${money(r.cmimi)}</b></td><td>${reservationStatusHtml(r)}</td><td>${refundInlineHtml(r)}<br>${cancelButtonHtml(r)}</td></tr>`).join('')||'<tr><td colspan="7">Nuk ke rezervime ende.</td></tr>';}
+async function followCurrentAgency(){try{await jsonFetch(API+'/engagement/follows',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userEmail:user.email,agencyName:activePackage.agencyName||'Eren Travel'})});alert('Agjencia u shtua te lista që ndjek.');}catch(e){alert(e.message)}}
+async function loadFollowing(){const fs=await jsonFetch(API+`/engagement/follows?email=${encodeURIComponent(user.email)}`);el('followingList').innerHTML=fs.map(f=>`<div class="col-md-4"><div class="stat-card"><span>Agjenci</span><b>${esc(f.agencyName)}</b><br><small>Ndjekur më ${new Date(f.createdAt).toLocaleDateString('sq-AL')}</small><br><button class="btn btn-outline-danger btn-sm mt-2" onclick="unfollow('${encodeURIComponent(f.agencyName)}')">Hiqe</button></div></div>`).join('')||'<p>Nuk po ndjek ende asnjë agjenci.</p>';}
+async function unfollow(a){await fetch(API+`/engagement/follows?email=${encodeURIComponent(user.email)}&agencyName=${a}`,{method:'DELETE'});loadFollowing();}
+async function loadReviews(){const [summary,reviews]=await Promise.all([jsonFetch(API+`/engagement/reviews/summary?packageId=${activePackage.id}`),jsonFetch(API+`/engagement/reviews?packageId=${activePackage.id}`)]);el('reviewSummary').textContent=`${Number(summary.averageRating||0).toFixed(2)} ⭐ / 5 nga ${summary.count||0} klientë`;el('reviewsList').innerHTML=reviews.map(r=>`<div class="review-item"><b>${esc(r.userName)}</b> <span>${starText(r.rating)}</span><br><span>${esc(r.comment||'Pa koment')}</span></div>`).join('')||'Ende nuk ka reviews për këtë paketë.';}
+async function submitReview(){try{await jsonFetch(API+'/engagement/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userEmail:user.email,userName:user.fullName||user.email,agencyName:activePackage.agencyName||'Eren Travel',packageId:activePackage.id,rating:selectedRating,comment:el('reviewComment').value})});el('reviewComment').value='';await loadReviews();await loadPackages();}catch(e){alert(e.message)}}
+async function reportCurrentPackage(){const reason=prompt('Shkruaj arsyen e raportimit:');if(!reason)return;await jsonFetch(API+'/engagement/reports',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reporterEmail:user.email,targetType:'Package',targetId:activePackage.id,agencyName:activePackage.agencyName||'Eren Travel',reason})});alert('Raportimi u dërgua te administratori.');}
+loadPackages();loadMyReservations();
+</script>
+</body>
+</html>

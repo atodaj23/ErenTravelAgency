@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eren Travel Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-only-page">
+  <section class="login-hero clean-login">
+    <div class="container">
+      <div class="row justify-content-center align-items-center min-vh-100 py-5">
+        <div class="col-xl-5 col-lg-6 col-md-9">
+          <div class="text-center mb-4">
+            <img src="images/logo.png" class="login-logo minimal-logo" alt="Eren Travel Logo">
+            <h1 class="login-title">Eren Travel Management System</h1>
+          </div>
+          <div class="login-card" id="authBox">
+            <ul class="nav nav-pills login-tabs mb-4" id="roleTabs">
+              <li class="nav-item"><button class="nav-link active" data-role="Client">Client</button></li>
+              <li class="nav-item"><button class="nav-link" data-role="B2B">B2B</button></li>
+              <li class="nav-item"><button class="nav-link" data-role="TravelAgent">Travel Agent</button></li>
+              <li class="nav-item"><button class="nav-link" data-role="Administrator">Admin</button></li>
+            </ul>
+            <div class="row g-4">
+              <div class="col-12" id="loginBox">
+                <h4 class="fw-bold mb-3">Login</h4>
+                <label class="form-label">Email</label>
+                <input id="loginEmail" class="form-control" type="email" autocomplete="email">
+                <label class="form-label mt-3">Password</label>
+                <input id="loginPassword" class="form-control" type="password" autocomplete="current-password">
+                <button class="btn btn-primary w-100 mt-4" onclick="login()">Hyr në sistem</button>
+                <button id="forgotPasswordBtn" class="btn btn-link w-100 mt-2 p-0" onclick="showResetPassword()" type="button">Kam harruar password-in</button>
+                <div id="loginMsg" class="small mt-3"></div>
+                <div id="resetBox" class="d-none mt-3 p-3 rounded bg-light">
+                  <h6 class="fw-bold">Reset password</h6>
+                  <label class="form-label">Pyetja e sigurisë që zgjodhe në regjistrim</label>
+                  <select id="resetSecurityQuestion" class="form-select">
+                    <option value="">Zgjidh pyetjen e sigurisë</option>
+                    <option value="Cili është qyteti yt i lindjes?">Cili është qyteti yt i lindjes?</option>
+                    <option value="Cili është emri i shkollës tënde të parë?">Cili është emri i shkollës tënde të parë?</option>
+                    <option value="Cili është emri i kafshës tënde të parë?">Cili është emri i kafshës tënde të parë?</option>
+                    <option value="Cili është emri i agjencisë/biznesit?">Cili është emri i agjencisë/biznesit?</option>
+                  </select>
+                  <label class="form-label mt-2">Përgjigjja e pyetjes së sigurisë</label>
+                  <input id="resetSecurityAnswer" class="form-control" placeholder="Përgjigjja e mbajtur mend">
+                  <label class="form-label mt-2">Password i ri</label>
+                  <input id="resetPassword" class="form-control" type="password">
+                  <button class="btn btn-outline-primary w-100 mt-3" onclick="resetPassword()" type="button">Ndrysho password</button>
+                  <div id="resetMsg" class="small mt-2"></div>
+                </div>
+              </div>
+              <div class="col-12" id="registerBox">
+                <hr class="my-2">
+                <h5 class="fw-bold mt-3">Krijo llogari</h5>
+                <div class="row g-2">
+                  <div class="col-md-6"><label class="form-label">Emri i plotë</label><input id="regName" class="form-control"></div>
+                  <div class="col-md-6"><label class="form-label">Email</label><input id="regEmail" class="form-control" type="email"></div>
+                  <div class="col-md-12"><label class="form-label">Password</label><input id="regPassword" class="form-control" type="password"></div>
+                  <div class="col-md-12"><label class="form-label">Pyetje sigurie</label><select id="securityQuestion" class="form-select"><option value="Cili është qyteti yt i lindjes?">Cili është qyteti yt i lindjes?</option><option value="Cili është emri i shkollës tënde të parë?">Cili është emri i shkollës tënde të parë?</option><option value="Cili është emri i kafshës tënde të parë?">Cili është emri i kafshës tënde të parë?</option><option value="Cili është emri i agjencisë/biznesit?">Cili është emri i agjencisë/biznesit?</option></select></div>
+                  <div class="col-md-12"><label class="form-label">Përgjigjja e pyetjes së sigurisë</label><input id="securityAnswer" class="form-control" placeholder="Mbaje mend këtë përgjigje për forgot password"></div>
+                </div>
+                <div id="businessFields" class="d-none mt-2">
+                  <div class="row g-2">
+                    <div class="col-md-6"><label class="form-label">Emri i agjencisë/biznesit</label><input id="agencyName" class="form-control"></div>
+                    <div class="col-md-6"><label class="form-label">Tax ID / NIPT</label><input id="taxId" class="form-control"></div>
+                    <div class="col-md-6"><label class="form-label">Adresa</label><input id="address" class="form-control"></div>
+                    <div class="col-md-6"><label class="form-label">Telefon</label><input id="phone" class="form-control"></div>
+                  </div>
+                </div>
+                <button class="btn btn-outline-primary w-100 mt-3" onclick="registerUser()">Regjistrohu</button>
+                <div id="registerMsg" class="small mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="scripts/app.js"></script>
+<script>
+let selectedRole='Client';
+const $=id=>document.getElementById(id);
+document.querySelectorAll('#roleTabs button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#roleTabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); selectedRole=b.dataset.role;
+  $('registerBox').classList.toggle('d-none',selectedRole==='Administrator');
+  $('businessFields').classList.toggle('d-none',!(selectedRole==='B2B'||selectedRole==='TravelAgent'));
+  $('forgotPasswordBtn').classList.toggle('d-none', selectedRole==='Administrator');
+  if(selectedRole==='Administrator') $('resetBox').classList.add('d-none');
+  $('loginMsg').textContent=''; $('registerMsg').textContent='';
+}));
+function msg(id,t,err=false){let e=$(id);e.className='small mt-3 '+(err?'text-danger':'text-success');e.textContent=t;}
+async function registerUser(){
+  try{
+    const payload={fullName:$('regName').value.trim(),email:$('regEmail').value.trim(),password:$('regPassword').value,role:selectedRole,agencyName:$('agencyName')?.value?.trim()||'',taxId:$('taxId')?.value?.trim()||'',address:$('address')?.value?.trim()||'',phone:$('phone')?.value?.trim()||'',securityQuestion:$('securityQuestion').value,securityAnswer:$('securityAnswer').value.trim()};
+    await jsonFetch(API+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    msg('registerMsg','Llogaria u krijua. Prit aprovimin nga administratori.');
+  }catch(e){msg('registerMsg',e.message,true)}
+}
+async function login(){
+  try{
+    const u=await jsonFetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('loginEmail').value.trim(),password:$('loginPassword').value,role:selectedRole})});
+    setUser(u);
+    if(u.role==='Administrator') location.href='admin.html';
+    else if(u.role==='TravelAgent') location.href='agent.html';
+    else location.href='paketatTuristike.html';
+  }catch(e){msg('loginMsg',e.message,true)}
+}
+function showResetPassword(){
+  $('resetBox').classList.toggle('d-none');
+  $('resetMsg').textContent='';
+}
+async function resetPassword(){
+  try{
+    if(selectedRole==='Administrator'){msg('resetMsg','Admin password nuk ndryshohet nga kjo formë.',true);return;}
+    const email=$('loginEmail').value.trim();
+    const newPassword=$('resetPassword').value;
+    const securityQuestion=$('resetSecurityQuestion').value;
+    const securityAnswer=$('resetSecurityAnswer').value.trim();
+    if(!email || !securityQuestion || !securityAnswer || !newPassword){msg('resetMsg','Plotëso email-in, pyetjen e sigurisë, përgjigjen dhe password-in e ri.',true);return;}
+    await jsonFetch(API+'/auth/reset-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,role:selectedRole,securityQuestion,securityAnswer,newPassword})});
+    msg('resetMsg','Password u ndryshua. Tani mund të bësh login.');
+  }catch(e){msg('resetMsg',e.message,true)}
+}
+</script>
+</body>
+</html>
