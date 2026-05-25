@@ -1,6 +1,0 @@
-@ErenTravel3API_HostAddress = http://localhost:5098
-
-GET {{ErenTravel3API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
