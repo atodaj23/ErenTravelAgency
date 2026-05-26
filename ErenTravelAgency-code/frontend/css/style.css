@@ -1,0 +1,147 @@
+/* Navbar & logo */
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 50px;
+    overflow: visible;
+}
+
+.brand-logo {
+    height: 90px;
+    width: 120px;
+}
+
+.custom-navbar {
+    position: relative;
+    background: white;
+    border-bottom-left-radius: 50px;
+    overflow: hidden;
+}
+
+.custom-navbar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45%;
+    height: 100%;
+    background: #0d6efd;
+    border-bottom-left-radius: 50px;
+    z-index: 0;
+}
+
+.custom-navbar .container-fluid {
+    position: relative;
+    z-index: 1;
+}
+
+/* Carousel height */
+.carousel-inner, .carousel-item, .carousel-item img {
+  height: 688px;
+  object-fit: cover;
+}
+
+/* Caption & booking bar */
+.custom-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.custom-caption * {
+  pointer-events: auto;
+}
+
+.custom-caption h1 {
+  white-space: nowrap;
+  display: inline-block;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+
+.custom-caption p {
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+
+.booking-bar {
+  background: rgba(255,255,255,0.9);
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.booking-bar .form-control,
+.booking-bar .form-select {
+  max-width: 180px;
+}
+
+/* Carousel arrows on top */
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 20;
+}
+
+/* Package Card - NO ZOOM for cards with this class */
+.package-card-no-zoom {
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.role-pill{background:#0d6efd;color:white;border-radius:999px;padding:5px 10px;font-size:13px;display:inline-block}.eren-panel{background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:22px;box-shadow:0 8px 22px rgba(0,0,0,.06)}.package-img{height:210px;object-fit:cover}.price-old{text-decoration:line-through;color:#6c757d}.price-new{font-size:1.15rem;font-weight:700;color:#0d6efd}.badge-pending{background:#fff3cd;color:#664d03}.badge-approved{background:#d1e7dd;color:#0f5132}.login-hero{background:linear-gradient(135deg,rgba(13,27,61,.92),rgba(13,110,253,.7)),url('../images/header1.webp') center/cover;min-height:520px;display:flex;align-items:center}.login-card{background:rgba(255,255,255,.96);border-radius:18px;padding:24px;box-shadow:0 12px 35px rgba(0,0,0,.25)}.dashboard-header{background:#0d1b3d;color:white;padding:30px 0}.object-cover{object-fit:cover}.cursor-pointer{cursor:pointer}.preview-img{max-height:180px;object-fit:cover;border-radius:12px;border:1px solid #ddd}.table td,.table th{vertical-align:middle}
+
+/* Përmirësime vizuale për versionin me role */
+body{background:#f4f7fb;color:#1f2937}.modern-header{background:linear-gradient(135deg,#08152f,#0d6efd);padding:52px 0;border-bottom-left-radius:38px;border-bottom-right-radius:38px;box-shadow:0 16px 32px rgba(13,27,61,.18)}.mini-label{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:6px 13px;font-size:13px;margin-bottom:12px}.section-title{font-weight:800;color:#0d1b3d}.search-box{max-width:430px;border-radius:14px;padding:12px 16px;border:1px solid #dbe3ef}.package-card{border:0;border-radius:20px;overflow:hidden;box-shadow:0 12px 28px rgba(15,23,42,.08);transition:.22s ease;background:white}.package-card:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(15,23,42,.14)}.img-wrap{position:relative;overflow:hidden}.img-wrap .package-img{transition:.25s ease}.package-card:hover .package-img{transform:scale(1.04)}.agency-chip{position:absolute;left:12px;bottom:12px;background:rgba(13,27,61,.88);color:white;border-radius:999px;padding:5px 10px;font-size:12px}.booking-summary{background:linear-gradient(135deg,#eef5ff,#ffffff);border:1px solid #d9e8ff;border-radius:15px;padding:14px}.modal-content{border:0;box-shadow:0 24px 70px rgba(0,0,0,.25)}.stat-card{background:#fff;border-radius:18px;padding:18px 16px;box-shadow:0 10px 24px rgba(15,23,42,.08);border:1px solid #e8eef6}.stat-card span{display:block;color:#64748b;font-size:13px}.stat-card b{font-size:24px;color:#0d1b3d}.stat-card.warning{background:#fff8e6}.stat-card.success{background:#eafaf1}.admin-tabs .nav-link,.nav-pills .nav-link{border-radius:999px}.eren-panel{background:#fff;border:1px solid #e8eef6;border-radius:22px;padding:24px;box-shadow:0 12px 30px rgba(15,23,42,.07)}.table thead th{background:#f8fafc;color:#475569;font-size:13px;text-transform:uppercase;letter-spacing:.03em}.btn-primary{border-radius:999px;box-shadow:0 8px 18px rgba(13,110,253,.22)}.btn-outline-secondary,.btn-outline-primary,.btn-success,.btn-danger{border-radius:999px}.form-control,.form-select{border-radius:12px}.badge{border-radius:999px;padding:7px 10px}
+@media(max-width:768px){.custom-navbar::before{width:100%;border-bottom-left-radius:0}.brand-logo{height:72px;width:98px}.modern-header{border-radius:0;padding:38px 0}.search-box{max-width:100%}}
+
+/* Visual update v9: package photos fit inside cards, no crop/zoom */
+.package-card{cursor:pointer}.package-image-fit{height:210px;background:#f8fafc;display:flex;align-items:center;justify-content:center}.package-image-fit .package-img,.package-img{width:100%;height:210px;object-fit:contain;background:#f8fafc;padding:8px}.img-wrap .package-img{transition:none}.package-card:hover .package-img{transform:none}.detail-image-box{height:430px;background:#f8fafc;border:1px solid #e8eef6;border-radius:22px;display:flex;align-items:center;justify-content:center;overflow:hidden}.detail-image-box img{width:100%;height:100%;object-fit:contain;padding:12px}.package-detail-modal .modal-body{padding:28px}.agency-chip-static{display:inline-block;background:#0d1b3d;color:white;border-radius:999px;padding:7px 13px;font-size:13px}.detail-description{font-size:16px;line-height:1.7;color:#475569}.login-hero{min-height:620px}.login-hero .display-4{text-shadow:0 8px 22px rgba(0,0,0,.25)}
+
+/* v10 visual and role features */
+.login-brand-area{display:flex;flex-direction:column;align-items:flex-start;gap:18px}.login-logo{width:170px;height:auto;background:rgba(255,255,255,.92);border-radius:28px;padding:10px;box-shadow:0 16px 42px rgba(0,0,0,.25)}.reviews-box{background:#fff;border:1px solid #e8eef6;border-radius:18px;padding:16px}.review-item{background:#f8fafc;border-radius:12px;padding:10px 12px;margin-bottom:8px}.preview-img{width:100%;max-height:320px;object-fit:contain;background:#f8fafc}.package-card-no-zoom .package-img{object-fit:contain;background:#f8fafc;padding:8px}.dashboard-header.modern-header p{max-width:820px}@media(max-width:992px){.login-brand-area{align-items:center;text-align:center}.login-logo{width:135px}}
+
+/* Login page e thjeshtë: vetëm sfond, logo dhe formular */
+.login-hero { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(rgba(8,18,48,.60), rgba(8,18,48,.65)), url('/images/header1.webp') center/cover no-repeat; }
+.login-logo { max-width: 150px; height: auto; object-fit: contain; margin-bottom: 18px; filter: drop-shadow(0 8px 18px rgba(0,0,0,.25)); }
+.login-card { background: rgba(255,255,255,.94); backdrop-filter: blur(10px); border-radius: 24px; padding: 28px; box-shadow: 0 24px 70px rgba(0,0,0,.24); }
+.package-image-fit, .detail-image-box { background: #f7f8fb; }
+.package-image-fit img, .detail-image-box img, .package-img { object-fit: contain !important; }
+.review-summary { background: #fff8e1; border: 1px solid #ffe4a3; border-radius: 14px; padding: 10px 12px; color: #4d3700; }
+.review-item { background: #fff; border: 1px solid #edf0f5; border-radius: 12px; padding: 10px; margin-bottom: 8px; }
+
+/* v12 final role-complete visual fixes */
+.auth-only-page .custom-navbar{display:none!important}
+.clean-login{min-height:100vh;background:linear-gradient(135deg,rgba(8,18,48,.82),rgba(13,110,253,.52)),url('/images/header1.webp') center/cover no-repeat!important;}
+.minimal-logo{width:145px!important;background:rgba(255,255,255,.92);border-radius:28px;padding:10px;box-shadow:0 18px 42px rgba(0,0,0,.28)}
+.login-title{color:#fff;font-weight:800;text-shadow:0 12px 28px rgba(0,0,0,.38);font-size:clamp(1.8rem,3vw,3rem)}
+.login-tabs{gap:6px;justify-content:center}.login-tabs .nav-link{font-size:13px;padding:8px 12px}.login-card hr{border-color:#dbe3ef}.package-card .package-img,.package-card-no-zoom .package-img{object-fit:contain!important;background:#f8fafc!important;padding:8px!important}.package-image-fit{height:210px!important;background:#f8fafc}.package-image-fit .package-img{height:210px!important;object-fit:contain!important}.package-card:hover .package-img{transform:none!important}.detail-image-box img{object-fit:contain!important}.stars-input{display:flex;gap:6px;flex-wrap:wrap}.star-choice{border:1px solid #d9e2ef;background:#fff;border-radius:999px;padding:5px 10px;font-size:13px}.star-choice.active{background:#0d6efd;color:#fff;border-color:#0d6efd}.review-item{background:#fff;border:1px solid #edf0f5;border-radius:12px;padding:10px;margin-bottom:8px}.navbar .nav-link{color:#0d1b3d!important}.custom-navbar::before{background:#0d6efd}.custom-navbar .navbar-toggler{background:#0d6efd}.custom-navbar .nav-link.active,.custom-navbar .nav-link:hover{font-weight:700;color:#0d6efd!important}@media(max-width:768px){.login-card{padding:20px}.login-tabs .nav-link{font-size:12px;padding:7px 9px}.brand-logo{height:70px;width:95px}}
+
+.package-rating-badge{min-width:82px;text-align:right;background:#fff8e1;border:1px solid #ffe08a;color:#7a5200;border-radius:14px;padding:5px 8px;line-height:1.1;box-shadow:0 6px 14px rgba(122,82,0,.08)}
+.package-rating-badge span{display:block;font-weight:800;font-size:13px}
+.package-rating-badge small{display:block;font-size:11px;color:#8a6a1d}
+
+/* v15: login background statik për të gjitha rolet */
+.auth-only-page{
+  min-height:100vh;
+  background:linear-gradient(135deg,rgba(8,18,48,.82),rgba(13,110,253,.52)),url('/images/header1.webp') center center/cover no-repeat fixed!important;
+}
+.auth-only-page .clean-login,
+.clean-login{
+  background:transparent!important;
+  background-image:none!important;
+}
+.login-tabs .nav-link{transition:background-color .15s ease,color .15s ease!important}
+.capacity-line{background:#f8fafc;border:1px solid #e8eef6;border-radius:12px;padding:7px 9px;}
+
+/* v16: capacity editor for travel agent */
+.capacity-editor{background:#f8fafc;border:1px solid #e8eef6;border-radius:14px;padding:10px 12px;}
+.capacity-editor .input-group .form-control{border-top-left-radius:999px;border-bottom-left-radius:999px;}
+.capacity-editor .input-group .btn{border-top-right-radius:999px;border-bottom-right-radius:999px;}
+/* Login page: pa përshkrime rolesh */
+.role-description,.role-help,.login-role-description{display:none!important;}
