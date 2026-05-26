@@ -29,6 +29,27 @@ The system provides a space where travel agencies can publish travel packages an
 - Browse travel packages with special B2B pricing
 - Book travel packages at business rates
 
+## Running the Project
+
+1. Start MySQL from XAMPP.
+
+2. In the terminal:
+
+```powershell
+cd ErenTravelAgency-main
+dotnet run
+```
+
+3. Open in your browser:
+```text
+http://localhost:5098
+```
+
+### Admin Credentials
+Email: `admin@grupierenit.com`
+
+Password: `Grupi123`
+
 ## Team Members
 - Ajmi Capo
 - Donald Ferati
